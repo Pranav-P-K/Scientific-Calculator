@@ -22,12 +22,12 @@ public class Calculator implements ActionListener {
     public static void main(String[] args) {
 
         calcFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        calcFrame.setSize(515, 700);
+        calcFrame.setSize(415, 540);
         calcFrame.getContentPane().setBackground(Color.BLACK);
 
-        ansField.setBounds(50,50,400,50);
+        ansField.setBounds(0,50,400,50);
         ansField.setEditable(false);
-        textField.setBounds(50 ,100 , 400, 50);
+        textField.setBounds(0 ,0 , 400, 50);
         textField.setEditable(false);
 
         for (int i=0;i<10;i++) {
@@ -110,11 +110,11 @@ public class Calculator implements ActionListener {
         equalsButton = new JButton("=");
         equalsButton.addActionListener(new Calculator());
 
-        calcPanel.setBounds(50, 200, 400, 400);
+        calcPanel.setBounds(0, 100, 400, 400);
         calcPanel.setLayout(new GridLayout(7, 5, 2, 2));
         calcPanel.setBackground(Color.BLACK);
 
-        historyPanel.setBounds(500, 50, 300, 550);
+        historyPanel.setBounds(400, 0, 300, 500);
         historyPanel.setBackground(Color.ORANGE);
 
         calcPanel.add(memoryButton);
@@ -253,7 +253,7 @@ public class Calculator implements ActionListener {
         
         if (e.getSource() == memoryButton) {
             historyPanel.setVisible(true);
-            calcFrame.setSize(850,700);
+            calcFrame.setSize(700,540);
         } else if (e.getSource() == piButton) {
             textField.setText(Double.toString(Math.PI));
         } else if (e.getSource() == epowerxButton) {
