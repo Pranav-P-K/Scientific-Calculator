@@ -8,6 +8,7 @@ public class Calculator implements ActionListener {
     static JPanel calcPanel = new JPanel();
     static JPanel historyPanel = new JPanel();
     static JTextField textField = new JTextField();
+    static JTextField ansField = new JTextField();
     static JButton[] numberButtons = new JButton[10];
     
     static JButton memoryButton,piButton,epowerxButton,clrButton,delButton,sinButton,cosButton,asinButton,acosButton,
@@ -24,7 +25,9 @@ public class Calculator implements ActionListener {
         calcFrame.setSize(515, 700);
         calcFrame.getContentPane().setBackground(Color.BLACK);
 
-        textField.setBounds(50 ,50 , 400, 100);
+        ansField.setBounds(50,50,400,50);
+        ansField.setEditable(false);
+        textField.setBounds(50 ,100 , 400, 50);
         textField.setEditable(false);
 
         for (int i=0;i<10;i++) {
@@ -156,6 +159,7 @@ public class Calculator implements ActionListener {
         calcPanel.add(dotButton);
         calcPanel.add(equalsButton);
 
+        calcFrame.add(ansField);
         calcFrame.add(textField);
         calcFrame.add(calcPanel);
         calcFrame.add(historyPanel);
