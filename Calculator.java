@@ -169,57 +169,59 @@ public class Calculator implements ActionListener {
 
     }
 
-    private void evaluateExpression() {
+    public void evaluateExpression() {
         String expression = textField.getText();
         try {
             double result = evaluate(expression);
-            textField.setText(Double.toString(result));
+            ansField.setText(Double.toString(result));
         } catch (ArithmeticException ex) {
-            textField.setText("Error");
+            ansField.setText("Error");
         }
     }
 
     public double evaluate(String expression) {
-        return (double) new Object() {
+        return new Object() {
             int pos = -1, ch;
-    
+
             void nextChar() {
                 ch = (++pos < expression.length()) ? expression.charAt(pos) : -1;
             }
-    
+
             boolean isDigit(char c) {
                 return Character.isDigit(c);
             }
-    
+
             double parse() {
                 nextChar();
                 double x = parseExpression();
-                if (pos < expression.length()) throw new RuntimeException("Unexpected: " + (char) ch);
+                if (pos < expression.length()) {
+                    throw new RuntimeException("Unexpected: " + (char) ch);
+                }
                 return x;
             }
-    
+
             double parseExpression() {
                 double x = parseTerm();
-                for (; ; ) {
+                for (;;) {
                     if (eat('+')) x += parseTerm();
                     else if (eat('-')) x -= parseTerm();
                     else return x;
                 }
             }
-    
+
             double parseTerm() {
                 double x = parseFactor();
-                for (; ; ) {
+                for (;;) {
                     if (eat('*')) x *= parseFactor();
                     else if (eat('/')) x /= parseFactor();
                     else return x;
                 }
             }
-    
+
             double parseFactor() {
                 if (eat('+')) return parseFactor();
                 if (eat('-')) return -parseFactor();
-    
+
                 double x;
                 int startPos = this.pos;
                 if (eat('(')) {
@@ -231,12 +233,10 @@ public class Calculator implements ActionListener {
                 } else {
                     throw new RuntimeException("Unexpected: " + (char) ch);
                 }
-    
-                if (eat('^')) x = Math.pow(x, parseFactor());
-    
+
                 return x;
             }
-    
+
             boolean eat(int charToEat) {
                 while (Character.isWhitespace(ch)) nextChar();
                 if (ch == charToEat) {
@@ -254,72 +254,127 @@ public class Calculator implements ActionListener {
         if (e.getSource() == memoryButton) {
             historyPanel.setVisible(true);
             calcFrame.setSize(700,540);
-        } else if (e.getSource() == piButton) {
-            textField.setText(Double.toString(Math.PI));
-        } else if (e.getSource() == epowerxButton) {
+        } 
+        
+        else if (e.getSource() == piButton) {
+            textField.setText(Double.toString(Math.round(Math.PI*100)/100.0));
+            ansField.setText(Double.toString(Math.PI));
+            
+        } 
+        
+        else if (e.getSource() == epowerxButton) {
             num1 = Double.parseDouble(textField.getText());
             textField.setText(Double.toString(Math.exp(num1)));
-        } else if (e.getSource() == clrButton) {
+        } 
+        
+        else if (e.getSource() == clrButton) {
             textField.setText("");
-        } else if (e.getSource() == delButton) {
+            ansField.setText("");
+        } 
+        
+        else if (e.getSource() == delButton) {
             String currentText = textField.getText();
             String delText = currentText.substring(0,currentText.length()-1);
             textField.setText(delText);
-        } else if (e.getSource() == sinButton) {
+            ansField.setText("");
+        } 
+        
+        else if (e.getSource() == sinButton) {
             num1 = Double.parseDouble(textField.getText());
             textField.setText(Double.toString((double) (Math.sin(Math.toRadians(num1)))));
-        } else if (e.getSource() == cosButton) {
+        } 
+        
+        else if (e.getSource() == cosButton) {
             num1 = Double.parseDouble(textField.getText());
             textField.setText(Double.toString((double) (Math.cos(Math.toRadians(num1)))));
-        } else if (e.getSource() == asinButton) {
+        } 
+        
+        else if (e.getSource() == asinButton) {
             num1 = Double.parseDouble(textField.getText());
             textField.setText(Double.toString((double) (Math.asin(Math.toRadians(num1)))));
-        } else if (e.getSource() == acosButton) {
+        } 
+        
+        else if (e.getSource() == acosButton) {
             num1 = Double.parseDouble(textField.getText());
             textField.setText(Double.toString((double) (Math.acos(Math.toRadians(num1)))));
-        } else if (e.getSource() == absButton) {
+        } 
+        
+        else if (e.getSource() == absButton) {
             num1 = Double.parseDouble(textField.getText());
             textField.setText(Double.toString(Math.abs(num1)));
-        } else if (e.getSource() == onebyxButton) {
+        } 
+        
+        else if (e.getSource() == onebyxButton) {
             num1 = Double.parseDouble(textField.getText());
             textField.setText(Double.toString(1/num1));
-        } else if (e.getSource() == brac1Button) {
+        } 
+        
+        else if (e.getSource() == brac1Button) {
             String currentText = textField.getText();
-            String brac1Text = "(" + currentText.substring(0,currentText.length());
+            String brac1Text =  currentText.substring(0,currentText.length()) + "(";
             textField.setText(brac1Text);
-        } else if (e.getSource() == brac2Button){
+        } 
+        
+        else if (e.getSource() == brac2Button){
             String currentText = textField.getText();
             String brac2Text = currentText.substring(0,currentText.length()) + ")";
             textField.setText(brac2Text);
-        } else if (e.getSource() == factorialButton) {
+        } 
+        
+        else if (e.getSource() == factorialButton) {
             ;
-        } else if (e.getSource() == divideButton) {
+        } 
+        
+        else if (e.getSource() == divideButton) {
             String currentText = textField.getText();
-            String divText = currentText.substring(0,currentText.length()) + "/";
-            textField.setText(divText);
-        } else if (e.getSource() == powerButton) {
+            textField.setText(currentText+"/");
+        } 
+        
+        else if (e.getSource() == powerButton) {
             ;
-        } else if (e.getSource() == multiplyButton) {
+        } 
+        
+        else if (e.getSource() == multiplyButton) {
             String currentText = textField.getText();
-            String prodText = currentText.substring(0,currentText.length()) + "*";
-            textField.setText(prodText);
-        } else if (e.getSource() == rootButton) {
+            textField.setText(currentText+"*");
+        } 
+        
+        else if (e.getSource() == rootButton) {
             ;
-        } else if (e.getSource() == minusButton) {
+        } 
+        
+        else if (e.getSource() == minusButton) {
             String currentText = textField.getText();
-            String diffText = currentText.substring(0,currentText.length()) + "-";
-            textField.setText(diffText);
-        } else if (e.getSource() == logButton) {
+            textField.setText(currentText+"-");
+        } 
+        
+        else if (e.getSource() == logButton) {
             ;
-        } else if (e.getSource() == plusButton) {
+        } 
+        
+        else if (e.getSource() == plusButton) {
             String currentText = textField.getText();
-            String sumText = currentText.substring(0,currentText.length()) + "+";
-            textField.setText(sumText);
-        } else if (e.getSource() == lnButton) {
+            textField.setText(currentText+"+");
+        } 
+        
+        else if (e.getSource() == lnButton) {
             ;
-        } else if (e.getSource() == equalsButton) {
+        }
+
+        else if (e.getSource() == negativeButton) {
+            ;
+        }
+
+        else if (e.getSource() == dotButton) {
+            String currentText = textField.getText();
+            textField.setText(currentText+".");
+        }
+        
+        else if (e.getSource() == equalsButton) {
             evaluateExpression();
-        } else {
+        } 
+        
+        else {
             for (int i = 0; i < 10; i++) {
                 if (e.getSource() == numberButtons[i]) {
                     String currentText = textField.getText();
