@@ -257,7 +257,7 @@ public class Calculator implements ActionListener {
         } 
         
         else if (e.getSource() == piButton) {
-            textField.setText(Double.toString(Math.round(Math.PI*100)/100.0));
+            textField.setText(textField.getText() + Double.toString(Math.round(Math.PI*100)/100.0));
             ansField.setText(Double.toString(Math.PI));
             
         } 
@@ -274,9 +274,11 @@ public class Calculator implements ActionListener {
         
         else if (e.getSource() == delButton) {
             String currentText = textField.getText();
-            String delText = currentText.substring(0,currentText.length()-1);
-            textField.setText(delText);
-            ansField.setText("");
+            if (currentText.length() > 0) {
+                String delText = currentText.substring(0,currentText.length()-1);
+                textField.setText(delText);
+                ansField.setText("");
+            }
         } 
         
         else if (e.getSource() == sinButton) {
@@ -379,6 +381,7 @@ public class Calculator implements ActionListener {
                 if (e.getSource() == numberButtons[i]) {
                     String currentText = textField.getText();
                     textField.setText(currentText + i);
+                    ansField.setText(""+i);
                     num1 = Double.parseDouble(textField.getText());
                 }
             }
