@@ -11,13 +11,13 @@ public class Calculator implements ActionListener {
     static JTextField ansField = new JTextField();
     static JButton[] numberButtons = new JButton[10];
     
-    static JButton memoryButton,piButton,epowerxButton,clrButton,delButton,sinButton,cosButton,asinButton,acosButton,
+    static JButton memoryButton,piButton,expButton,clrButton,delButton,sinButton,cosButton,asinButton,acosButton,
     absButton,onebyxButton,brac1Button,brac2Button,factorialButton,divideButton,powerButton,rootButton,multiplyButton,
     minusButton,logButton,plusButton,lnButton,negativeButton,dotButton,equalsButton;
 
-    static double num1, num2;
-    static String operation;
-    static String second;
+    static double num1;
+    static String operation = " ";
+    
 
     public static void main(String[] args) {
 
@@ -41,8 +41,8 @@ public class Calculator implements ActionListener {
         piButton = new JButton("π");
         piButton.addActionListener(new Calculator());
 
-        epowerxButton = new JButton("e^x");
-        epowerxButton.addActionListener(new Calculator());
+        expButton = new JButton("e");
+        expButton.addActionListener(new Calculator());
 
         clrButton = new JButton("CE");
         clrButton.addActionListener(new Calculator());
@@ -64,7 +64,6 @@ public class Calculator implements ActionListener {
 
         absButton = new JButton("|x|");
         absButton.addActionListener(new Calculator());  
-
         onebyxButton = new JButton("1/x");
         onebyxButton.addActionListener(new Calculator());
 
@@ -119,7 +118,7 @@ public class Calculator implements ActionListener {
 
         calcPanel.add(memoryButton);
         calcPanel.add(piButton);
-        calcPanel.add(epowerxButton);
+        calcPanel.add(expButton);
         calcPanel.add(clrButton);
         calcPanel.add(delButton);
 
@@ -187,10 +186,6 @@ public class Calculator implements ActionListener {
                 ch = (++pos < expression.length()) ? expression.charAt(pos) : -1;
             }
 
-            boolean isDigit(char c) {
-                return Character.isDigit(c);
-            }
-
             double parse() {
                 nextChar();
                 double x = parseExpression();
@@ -221,19 +216,27 @@ public class Calculator implements ActionListener {
             double parseFactor() {
                 if (eat('+')) return parseFactor();
                 if (eat('-')) return -parseFactor();
-
+            
                 double x;
                 int startPos = this.pos;
                 if (eat('(')) {
                     x = parseExpression();
                     eat(')');
-                } else if (isDigit((char) ch) || ch == '.') {
-                    while (isDigit((char) ch)) nextChar();
+                } else if (Character.isDigit((char) ch)) {
+                    while (Character.isDigit((char) ch)) {
+                        nextChar();
+                    }
+                    if (ch == '.') {
+                        nextChar();
+                        while (Character.isDigit((char) ch)) {
+                            nextChar();
+                        }
+                    }
                     x = Double.parseDouble(expression.substring(startPos, this.pos));
                 } else {
                     throw new RuntimeException("Unexpected: " + (char) ch);
                 }
-
+            
                 return x;
             }
 
@@ -257,14 +260,14 @@ public class Calculator implements ActionListener {
         } 
         
         else if (e.getSource() == piButton) {
-            textField.setText(textField.getText() + Double.toString(Math.round(Math.PI*100)/100.0));
+            textField.setText(textField.getText() + Double.toString(3.14));
             ansField.setText(Double.toString(Math.PI));
             
         } 
         
-        else if (e.getSource() == epowerxButton) {
-            num1 = Double.parseDouble(textField.getText());
-            textField.setText(Double.toString(Math.exp(num1)));
+        else if (e.getSource() == expButton) {
+            textField.setText(textField.getText() + Double.toString(2.72));
+            ansField.setText(Double.toString(Math.exp(1)));
         } 
         
         else if (e.getSource() == clrButton) {
@@ -277,38 +280,36 @@ public class Calculator implements ActionListener {
             if (currentText.length() > 0) {
                 String delText = currentText.substring(0,currentText.length()-1);
                 textField.setText(delText);
-                ansField.setText("");
+                ansField.setText(delText);
             }
         } 
         
         else if (e.getSource() == sinButton) {
-            num1 = Double.parseDouble(textField.getText());
-            textField.setText(Double.toString((double) (Math.sin(Math.toRadians(num1)))));
+            num1 = Double.parseDouble(ansField.getText());
+            textField.setText(textField.getText() + Double.toString((double) (Math.sin(Math.toRadians(num1)))));
         } 
         
         else if (e.getSource() == cosButton) {
-            num1 = Double.parseDouble(textField.getText());
-            textField.setText(Double.toString((double) (Math.cos(Math.toRadians(num1)))));
+            num1 = Double.parseDouble(ansField.getText());
+            textField.setText(textField.getText() + Double.toString((double) (Math.cos(Math.toRadians(num1)))));
         } 
         
         else if (e.getSource() == asinButton) {
-            num1 = Double.parseDouble(textField.getText());
-            textField.setText(Double.toString((double) (Math.asin(Math.toRadians(num1)))));
+            num1 = Double.parseDouble(ansField.getText());
+            textField.setText(textField.getText() + Double.toString((double) (Math.asin(Math.toRadians(num1)))));
         } 
         
         else if (e.getSource() == acosButton) {
-            num1 = Double.parseDouble(textField.getText());
-            textField.setText(Double.toString((double) (Math.acos(Math.toRadians(num1)))));
+            num1 = Double.parseDouble(ansField.getText());
+            textField.setText(textField.getText() + Double.toString((double) (Math.acos(Math.toRadians(num1)))));
         } 
         
         else if (e.getSource() == absButton) {
-            num1 = Double.parseDouble(textField.getText());
-            textField.setText(Double.toString(Math.abs(num1)));
+            ;
         } 
         
         else if (e.getSource() == onebyxButton) {
-            num1 = Double.parseDouble(textField.getText());
-            textField.setText(Double.toString(1/num1));
+            ;
         } 
         
         else if (e.getSource() == brac1Button) {
@@ -330,6 +331,7 @@ public class Calculator implements ActionListener {
         else if (e.getSource() == divideButton) {
             String currentText = textField.getText();
             textField.setText(currentText+"/");
+            ansField.setText("");
         } 
         
         else if (e.getSource() == powerButton) {
@@ -339,6 +341,7 @@ public class Calculator implements ActionListener {
         else if (e.getSource() == multiplyButton) {
             String currentText = textField.getText();
             textField.setText(currentText+"*");
+            ansField.setText("");
         } 
         
         else if (e.getSource() == rootButton) {
@@ -348,6 +351,7 @@ public class Calculator implements ActionListener {
         else if (e.getSource() == minusButton) {
             String currentText = textField.getText();
             textField.setText(currentText+"-");
+            ansField.setText("");
         } 
         
         else if (e.getSource() == logButton) {
@@ -357,6 +361,7 @@ public class Calculator implements ActionListener {
         else if (e.getSource() == plusButton) {
             String currentText = textField.getText();
             textField.setText(currentText+"+");
+            ansField.setText("");
         } 
         
         else if (e.getSource() == lnButton) {
@@ -370,6 +375,7 @@ public class Calculator implements ActionListener {
         else if (e.getSource() == dotButton) {
             String currentText = textField.getText();
             textField.setText(currentText+".");
+            ansField.setText(currentText+".");
         }
         
         else if (e.getSource() == equalsButton) {
@@ -380,9 +386,11 @@ public class Calculator implements ActionListener {
             for (int i = 0; i < 10; i++) {
                 if (e.getSource() == numberButtons[i]) {
                     String currentText = textField.getText();
+                    String ansText = ansField.getText();
                     textField.setText(currentText + i);
-                    ansField.setText(""+i);
-                    num1 = Double.parseDouble(textField.getText());
+                    ansField.setText(ansText + i);
+                    
+                    
                 }
             }
         }
