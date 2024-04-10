@@ -286,26 +286,42 @@ public class Calculator implements ActionListener {
         
         else if (e.getSource() == sinButton) {
             num1 = Double.parseDouble(ansField.getText());
-            textField.setText(textField.getText() + Double.toString((double) (Math.sin(Math.toRadians(num1)))));
+            String currentText = textField.getText();
+            String ansText = ansField.getText();
+            currentText = currentText.substring(0,currentText.length()-ansText.length());
+            textField.setText(currentText + Double.toString((double) (Math.sin(Math.toRadians(num1)))));
         } 
         
         else if (e.getSource() == cosButton) {
             num1 = Double.parseDouble(ansField.getText());
-            textField.setText(textField.getText() + Double.toString((double) (Math.cos(Math.toRadians(num1)))));
+            String currentText = textField.getText();
+            String ansText = ansField.getText();
+            currentText = currentText.substring(0,currentText.length()-ansText.length());
+            textField.setText(currentText + Double.toString((double) (Math.cos(Math.toRadians(num1)))));
         } 
         
         else if (e.getSource() == asinButton) {
             num1 = Double.parseDouble(ansField.getText());
-            textField.setText(textField.getText() + Double.toString((double) (Math.asin(Math.toRadians(num1)))));
+            String currentText = textField.getText();
+            String ansText = ansField.getText();
+            currentText = currentText.substring(0,currentText.length()-ansText.length());
+            textField.setText(currentText + Double.toString((double) (Math.asin(Math.toRadians(num1)))));
         } 
         
         else if (e.getSource() == acosButton) {
             num1 = Double.parseDouble(ansField.getText());
-            textField.setText(textField.getText() + Double.toString((double) (Math.acos(Math.toRadians(num1)))));
+            String currentText = textField.getText();
+            String ansText = ansField.getText();
+            currentText = currentText.substring(0,currentText.length()-ansText.length());
+            textField.setText(currentText + Double.toString((double) (Math.acos(Math.toRadians(num1)))));
         } 
         
         else if (e.getSource() == absButton) {
-            ;
+            /*num1 = Double.parseDouble(ansField.getText());
+            String currentText = textField.getText();
+            String ansText = ansField.getText();
+            currentText = currentText.substring(0,currentText.length()-ansText.length());
+            textField.setText(currentText + Double.toString((double) (Math.abs(num1))));*/
         } 
         
         else if (e.getSource() == onebyxButton) {
