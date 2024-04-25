@@ -15,8 +15,7 @@ public class Calculator implements ActionListener {
     absButton,onebyxButton,brac1Button,brac2Button,factorialButton,divideButton,powerButton,rootButton,multiplyButton,
     minusButton,logButton,plusButton,lnButton,negativeButton,dotButton,equalsButton;
 
-    static double num1;
-    static String operation = " ";
+    static double num1, num2;
     
 
     public static void main(String[] args) {
@@ -79,19 +78,19 @@ public class Calculator implements ActionListener {
         divideButton = new JButton("÷");
         divideButton.addActionListener(new Calculator());
 
-        powerButton = new JButton("x^y");
+        powerButton = new JButton("x^2");
         powerButton.addActionListener(new Calculator());
 
         multiplyButton = new JButton("x");
         multiplyButton.addActionListener(new Calculator());
 
-        rootButton = new JButton("y√x");
+        rootButton = new JButton("2√x");
         rootButton.addActionListener(new Calculator());
 
         minusButton = new JButton("-");
         minusButton.addActionListener(new Calculator());
 
-        logButton = new JButton("alogb");
+        logButton = new JButton("log10");
         logButton.addActionListener(new Calculator());
 
         plusButton = new JButton("+");
@@ -162,7 +161,7 @@ public class Calculator implements ActionListener {
         calcFrame.add(textField);
         calcFrame.add(calcPanel);
         calcFrame.add(historyPanel);
-        historyPanel.setVisible(false);
+        //historyPanel.setVisible(false);
         calcFrame.setLayout(null);
         calcFrame.setVisible(true);
 
@@ -250,24 +249,32 @@ public class Calculator implements ActionListener {
             }
         }.parse();
     }
+    
+    public String setScreen() {
+        num1 = Double.parseDouble(ansField.getText());
+        String currentText = textField.getText();
+        String ansText = ansField.getText();
+        currentText = currentText.substring(0,currentText.length()-ansText.length());
+        return currentText;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         
         if (e.getSource() == memoryButton) {
-            historyPanel.setVisible(true);
-            calcFrame.setSize(700,540);
+            ;
+            
         } 
         
         else if (e.getSource() == piButton) {
             textField.setText(textField.getText() + Double.toString(3.14));
-            ansField.setText(Double.toString(Math.PI));
+            ansField.setText(Double.toString(3.14));
             
         } 
         
         else if (e.getSource() == expButton) {
             textField.setText(textField.getText() + Double.toString(2.72));
-            ansField.setText(Double.toString(Math.exp(1)));
+            ansField.setText(Double.toString(2.72));
         } 
         
         else if (e.getSource() == clrButton) {
@@ -285,47 +292,33 @@ public class Calculator implements ActionListener {
         } 
         
         else if (e.getSource() == sinButton) {
-            num1 = Double.parseDouble(ansField.getText());
-            String currentText = textField.getText();
-            String ansText = ansField.getText();
-            currentText = currentText.substring(0,currentText.length()-ansText.length());
-            textField.setText(currentText + Double.toString((double) (Math.sin(Math.toRadians(num1)))));
+            String cText = setScreen();
+            textField.setText(cText + Double.toString((double) (Math.sin(Math.toRadians(num1)))));
         } 
         
         else if (e.getSource() == cosButton) {
-            num1 = Double.parseDouble(ansField.getText());
-            String currentText = textField.getText();
-            String ansText = ansField.getText();
-            currentText = currentText.substring(0,currentText.length()-ansText.length());
-            textField.setText(currentText + Double.toString((double) (Math.cos(Math.toRadians(num1)))));
+            String cText = setScreen();
+            textField.setText(cText + Double.toString((double) (Math.cos(Math.toRadians(num1)))));
         } 
         
         else if (e.getSource() == asinButton) {
-            num1 = Double.parseDouble(ansField.getText());
-            String currentText = textField.getText();
-            String ansText = ansField.getText();
-            currentText = currentText.substring(0,currentText.length()-ansText.length());
-            textField.setText(currentText + Double.toString((double) (Math.asin(Math.toRadians(num1)))));
+            String cText = setScreen();
+            textField.setText(cText + Double.toString((double) (Math.asin(Math.toRadians(num1)))));
         } 
         
         else if (e.getSource() == acosButton) {
-            num1 = Double.parseDouble(ansField.getText());
-            String currentText = textField.getText();
-            String ansText = ansField.getText();
-            currentText = currentText.substring(0,currentText.length()-ansText.length());
-            textField.setText(currentText + Double.toString((double) (Math.acos(Math.toRadians(num1)))));
+            String cText = setScreen();
+            textField.setText(cText + Double.toString((double) (Math.acos(Math.toRadians(num1)))));
         } 
         
         else if (e.getSource() == absButton) {
-            /*num1 = Double.parseDouble(ansField.getText());
-            String currentText = textField.getText();
-            String ansText = ansField.getText();
-            currentText = currentText.substring(0,currentText.length()-ansText.length());
-            textField.setText(currentText + Double.toString((double) (Math.abs(num1))));*/
+            String cText = setScreen();
+            textField.setText(cText + Double.toString((double) (Math.abs(num1))));
         } 
         
         else if (e.getSource() == onebyxButton) {
-            ;
+            String cText = setScreen();
+            textField.setText(cText + Double.toString((double) (1/num1)));
         } 
         
         else if (e.getSource() == brac1Button) {
@@ -341,7 +334,8 @@ public class Calculator implements ActionListener {
         } 
         
         else if (e.getSource() == factorialButton) {
-            ;
+            //String cText = setScreen();
+            //textField.setText(cText + Double.toString((double) (Math.abs(num1))));
         } 
         
         else if (e.getSource() == divideButton) {
@@ -351,7 +345,8 @@ public class Calculator implements ActionListener {
         } 
         
         else if (e.getSource() == powerButton) {
-            ;
+            String cText = setScreen();
+            textField.setText(cText + Double.toString((double) (num1*num1)));
         } 
         
         else if (e.getSource() == multiplyButton) {
@@ -361,7 +356,8 @@ public class Calculator implements ActionListener {
         } 
         
         else if (e.getSource() == rootButton) {
-            ;
+            String cText = setScreen();
+            textField.setText(cText + Double.toString((double) (Math.sqrt(num1))));
         } 
         
         else if (e.getSource() == minusButton) {
@@ -371,7 +367,8 @@ public class Calculator implements ActionListener {
         } 
         
         else if (e.getSource() == logButton) {
-            ;
+            String cText = setScreen();
+            textField.setText(cText + Double.toString((double) (Math.log10(num1))));
         } 
         
         else if (e.getSource() == plusButton) {
@@ -381,7 +378,8 @@ public class Calculator implements ActionListener {
         } 
         
         else if (e.getSource() == lnButton) {
-            ;
+            String cText = setScreen();
+            textField.setText(cText + Double.toString((double) (Math.log(num1))));
         }
 
         else if (e.getSource() == negativeButton) {
@@ -410,6 +408,5 @@ public class Calculator implements ActionListener {
                 }
             }
         }
-     
     }
 }
