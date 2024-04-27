@@ -15,9 +15,11 @@ public class Calculator implements ActionListener {
     absButton,onebyxButton,brac1Button,brac2Button,factorialButton,divideButton,powerButton,rootButton,multiplyButton,
     minusButton,logButton,plusButton,lnButton,negativeButton,dotButton,equalsButton;
 
-    static double num1, num2;
+    static double num1;
+    static String[] hist = new String[10];
+    static int histIndex = 0;
+    boolean historyPanelVisible = false;
     
-
     public static void main(String[] args) {
 
         calcFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -113,7 +115,7 @@ public class Calculator implements ActionListener {
         calcPanel.setBackground(Color.BLACK);
 
         historyPanel.setBounds(400, 0, 300, 500);
-        historyPanel.setBackground(Color.ORANGE);
+        historyPanel.setBackground(Color.LIGHT_GRAY);
 
         calcPanel.add(memoryButton);
         calcPanel.add(piButton);
@@ -161,7 +163,7 @@ public class Calculator implements ActionListener {
         calcFrame.add(textField);
         calcFrame.add(calcPanel);
         calcFrame.add(historyPanel);
-        //historyPanel.setVisible(false);
+        historyPanel.setVisible(false);
         calcFrame.setLayout(null);
         calcFrame.setVisible(true);
 
@@ -258,13 +260,43 @@ public class Calculator implements ActionListener {
         return currentText;
     }
 
+    public static void history() {
+        if (histIndex >= 10) {            
+            for (int i = 0; i < 9; i++) {
+                hist[i] = hist[i + 1];
+            }
+            hist[9] = ansField.getText();
+        } else {
+            hist[histIndex] = ansField.getText();
+            histIndex++;
+        }
+        historyPanel.removeAll();
+        historyPanel.setLayout(new BoxLayout(historyPanel, BoxLayout.Y_AXIS));
+        for (int i = 0; i < histIndex; i++) {
+            JLabel label = new JLabel(hist[i]);
+            label.setFont(new Font("Times New Roman", Font.BOLD, 40));
+            label.setAlignmentX(Component.CENTER_ALIGNMENT);
+            historyPanel.add(label);
+            
+        }
+        historyPanel.revalidate();
+        historyPanel.repaint();
+    }
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         
         if (e.getSource() == memoryButton) {
-            ;
+            historyPanelVisible = !historyPanelVisible;
+            historyPanel.setVisible(historyPanelVisible);
+            if (historyPanelVisible) {
+                calcFrame.setSize(700, 540);
+            } else {
+                calcFrame.setSize(415, 540);
+            }
+        }    
             
-        } 
         
         else if (e.getSource() == piButton) {
             textField.setText(textField.getText() + Double.toString(3.14));
@@ -334,8 +366,12 @@ public class Calculator implements ActionListener {
         } 
         
         else if (e.getSource() == factorialButton) {
-            //String cText = setScreen();
-            //textField.setText(cText + Double.toString((double) (Math.abs(num1))));
+            String cText = setScreen();
+            int fact = 1;
+            for (int i=1;i<=num1;i++) {
+                fact *= i;
+            }
+            textField.setText(cText + Double.toString((double) (fact)));
         } 
         
         else if (e.getSource() == divideButton) {
@@ -383,7 +419,9 @@ public class Calculator implements ActionListener {
         }
 
         else if (e.getSource() == negativeButton) {
-            ;
+            String cText = setScreen();
+            textField.setText(cText + "-" + Double.toString((double) (num1)));
+            ansField.setText("-" + Double.toString((double) (num1)));
         }
 
         else if (e.getSource() == dotButton) {
@@ -394,6 +432,7 @@ public class Calculator implements ActionListener {
         
         else if (e.getSource() == equalsButton) {
             evaluateExpression();
+            history();
         } 
         
         else {
@@ -403,8 +442,6 @@ public class Calculator implements ActionListener {
                     String ansText = ansField.getText();
                     textField.setText(currentText + i);
                     ansField.setText(ansText + i);
-                    
-                    
                 }
             }
         }
