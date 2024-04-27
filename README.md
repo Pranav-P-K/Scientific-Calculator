@@ -1,5 +1,5 @@
 # Scientific-Calculator
 
-### A basic scientific calculator
-
-under development☠️
+### A Scientific Calculator made in Java using Swing UI
+  - User friendly
+  - Memory storage accessible
